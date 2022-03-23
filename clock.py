@@ -25,7 +25,7 @@ class Application():
         self.screen.blit(background, (0, 0))
 
         clock = Clock(self.width/2, self.height/2)
-        clock.init_pointers()
+        clock.init()
 
         while run:
             self.render(clock)
@@ -116,15 +116,22 @@ class Application():
 class Clock():
     def __init__(self, x, y):
         self.position = (x, y)
-        self.size = 300
-        self.numbers = ['3', '6', '9', '12']
-        self.color = (211, 211, 211)
+        self.size = APP_SETTINGS['height'] * 0.45
+        self.numbers = CLOCK_SETTINGS['numbers']
+        self.color = CLOCK_SETTINGS['bg_color']
         self.pg_clock = pg.time.Clock()
         self.seconds_pointer = Pointer(x, y, 'sec', self.size*0.9, True, 2)
         self.minutes_pointer = Pointer(x, y, 'min', self.size*0.7, False, 5)
         self.hours_pointer = Pointer(x, y, 'hour', self.size*0.5, False, 5)
         self.pointers = [self.seconds_pointer,
                          self.minutes_pointer, self.hours_pointer]
+        self.settings = {}
+
+    def init(self):
+      for s in CLOCK_SETTINGS:
+        print(s)
+
+      self.init_pointers()
 
     def init_pointers(self):
         now = datetime.datetime.now()
