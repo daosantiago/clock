@@ -1,13 +1,14 @@
 import math
 import pygame as pg
 import datetime
+from settings import CLOCK_SETTINGS, APP_SETTINGS
 from pygame.locals import *
 
 
-class Aplication():
+class Application():
     def __init__(self) -> None:
-        self.width = 1280
-        self.height = 768
+        self.width = APP_SETTINGS['width']
+        self.height = APP_SETTINGS['height']
         self.screen = pg.display.set_mode([self.width, self.height])
         print('Application has been Created')
 
@@ -206,6 +207,6 @@ class Pointer():
 
 
 if __name__ == "__main__":
-    ap = Aplication()
+    ap = Application()
 
     ap.loop()
