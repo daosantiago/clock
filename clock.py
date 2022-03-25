@@ -35,6 +35,9 @@ class Application():
                 if (event.type == MOUSEBUTTONDOWN):
                     print(pg.mouse.get_pos())
 
+                if (event.type == pg.QUIT):
+                    run = False
+
                 if (event.type == KEYDOWN):
                     # print(event.__dict__)
                     if(event.key == 13 or event.key == 27):
@@ -63,30 +66,33 @@ class Application():
         pg.draw.circle(self.screen, color, clock.position, 2)
 
     def draw_dashes(self, clock):
-        dashes = 12
+        dashes = 60
         color = (238, 173, 45)
         angle = 0
         angle_rate = 360 / dashes  # 30
         clock_center = (self.width / 2, self.height / 2)
-        distance = 260
+        distance = 280
 
         for i in range(dashes):
             angle += angle_rate % 360  # + 30, limit 330
             rad = math.radians(angle-90)
             numbers_angle_rate = 360/len(clock.numbers)  # 90
 
-            if (angle not in [90, 180, 270, 360]): #Don't draw in the numbers's space
-                x = int(clock_center[0] + math.cos(rad) * distance)
-                y = int(clock_center[1] + math.sin(rad) * distance)
+            if ((angle%30 != 0) or (angle%90 == 0)):
+                size = 2
+            else: 
+                size = 5
+            x = int(clock_center[0] + math.cos(rad) * distance)
+            y = int(clock_center[1] + math.sin(rad) * distance)
 
-                pg.draw.circle(self.screen, color, (x, y), 4)
+            pg.draw.circle(self.screen, color, (x, y), size)
 
     def draw_numbers(self, clock):
         numbers = clock.numbers
         # Instance of Font
         font = pg.font.SysFont('Arial', 50)
         clock_center = (self.width / 2, self.height / 2)
-        distance = 260
+        distance = 255
         color = (238, 173, 45)
 
         angle = 0
@@ -116,7 +122,7 @@ class Application():
 class Clock():
     def __init__(self, x, y):
         self.position = (x, y)
-        self.size = APP_SETTINGS['height'] * 0.45
+        self.size = APP_SETTINGS['height'] * 0.40
         self.numbers = CLOCK_SETTINGS['numbers']
         self.color = CLOCK_SETTINGS['bg_color']
         self.pg_clock = pg.time.Clock()
